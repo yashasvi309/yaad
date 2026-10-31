@@ -119,9 +119,12 @@ def load_six_day_vault() -> List[Dict[str, str]]:
 
 
 def save_six_day_vault(history: List[Dict[str, str]]) -> None:
+    """Atomically persists the 6-day rolling memory vault to prevent file corruption."""
+    tmp_file = f"{VAULT_FILE}.tmp"
     try:
-        with open(VAULT_FILE, "w", encoding="utf-8") as f:
+        with open(tmp_file, "w", encoding="utf-8") as f:
             json.dump(history[-6:], f, indent=2, ensure_ascii=False)
+        os.replace(tmp_file, VAULT_FILE)
     except Exception as e:
         logger.warning(f"Could not write vault file: {e}")
 
@@ -358,7 +361,7 @@ def send_telegram_family_alert(elder_name: str, audit: Dict[str, Any]) -> bool:
         f"🔔 *Family Note:* {audit.get('gentle_family_reminder', 'No urgent action needed.')}"
     )
 
-    url = clean_url(f"[https://api.telegram.org/bot](https://api.telegram.org/bot){token}/sendMessage")
+    url = clean_url(f"https://api.telegram.org/bot{token}/sendMessage")
     try:
         res = HTTP_SESSION.post(url, json={"chat_id": chat_id, "text": alert_msg, "parse_mode": "Markdown"}, timeout=8)
         if res.status_code == 200:

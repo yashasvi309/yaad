@@ -1,5 +1,6 @@
 .env
 .venv
 __pycache__
-
-
+yaad_6day_memory_vault.json
+*.pyc
+*.tmp

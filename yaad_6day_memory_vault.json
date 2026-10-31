@@ -1,17 +1,5 @@
 [
   {
-    "day_label": "Day 1 (6 Days Ago)",
-    "topic": "Gardening & Family Visit",
-    "memory_fact": "Planted orange marigold saplings in clay pots on the veranda with grandson Rohan.",
-    "mood": "Cheerful & Active"
-  },
-  {
-    "day_label": "Day 2 (5 Days Ago)",
-    "topic": "Traditional Cooking",
-    "memory_fact": "Prepared homemade Mirchi ka Salan for Sunday lunch using roasted peanuts and sesame seeds.",
-    "mood": "Nostalgic & Proud"
-  },
-  {
     "day_label": "Day 3 (4 Days Ago)",
     "topic": "Health & Mobility",
     "memory_fact": "Left knee felt slightly stiff after the morning walk; applied warm sesame oil and rested.",
@@ -34,5 +22,17 @@
     "topic": "Evening Routine",
     "memory_fact": "Watered the marigold pots; noticed the first yellow bud opening and slept early at 9:30 PM.",
     "mood": "Peaceful"
+  },
+  {
+    "day_label": "Today (07:28)",
+    "topic": "Daily Check-in",
+    "memory_fact": "Good morning Yaad! My left knee feels much better today. I watered the orange marigold saplings on the veranda that I planted with Rohan, an",
+    "mood": "Engaged"
+  },
+  {
+    "day_label": "Today (07:30)",
+    "topic": "Daily Check-in",
+    "memory_fact": "the plant died",
+    "mood": "Engaged"
   }
 ]

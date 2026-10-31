@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yaad | 6-Day Memory Continuity & Gemma Multimodal Wellness Companion</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b0f17;
+      background-image:
+        radial-gradient(at 10% 0%, rgba(245, 158, 11, 0.14) 0px, transparent 50%),
+        radial-gradient(at 90% 10%, rgba(20, 184, 166, 0.12) 0px, transparent 50%);
+      color: #f8fafc;
+    }
+    .serif-title { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .panel {
+      background: rgba(17, 24, 39, 0.84);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.22);
+      box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.7);
+    }
+    .studio-input {
+      background: rgba(11, 15, 23, 0.9);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      color: #f8fafc;
+    }
+    .studio-input:focus {
+      outline: none;
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #0d9488 100%);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.08); }
+    .preset-chip {
+      font-size: 0.72rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 9999px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.32);
+      color: #fcd34d;
+      cursor: pointer;
+    }
+    .preset-chip:hover { background: rgba(245, 158, 11, 0.25); color: #fff; }
+    .tab-btn { color: #94a3b8; font-weight: 600; border: 1px solid transparent; }
+    .tab-btn.active {
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.16);
+      color: #fff;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- HEADER -->
+    <header class="panel rounded-2xl px-6 py-4 flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-2xl">
+          🌼
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="serif-title text-2xl sm:text-3xl font-bold text-white">Yaad</h1>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              Open-Weight Gemma Multimodal · 6-Day Memory Continuity · Graphify Grounded
+            </span>
+          </div>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Voice-enabled elder wellness companion that gently exercises 6-day episodic memory &amp; updates family on Telegram.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 bg-black/50 border border-amber-500/30 rounded-full px-4 py-1.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="statusBadge" class="text-xs font-medium text-amber-200">6-Day Memory Vault Active</span>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[400px_minmax(0,1fr)] gap-6 items-start">
+
+      <!-- LEFT COLUMN: CHECK-IN INPUT + VOICE COMPANION -->
+      <aside class="panel rounded-2xl p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="serif-title text-xl font-bold text-white">Daily Elder Check-In</h2>
+          <span class="text-[11px] font-mono text-teal-300 bg-teal-500/15 px-2 py-0.5 rounded border border-teal-500/30">
+            Voice + Vision
+          </span>
+        </div>
+
+        <div>
+          <span class="block text-[11px] font-mono uppercase text-amber-300/90 mb-1.5">1-Click Demo Check-ins (Tests 6-Day Recall):</span>
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" class="preset-chip" id="presetStrong">✅ Strong 6-Day Recall</button>
+            <button type="button" class="preset-chip" id="presetPartial">🤔 Partial / Needs Gentle Prompt</button>
+            <button type="button" class="preset-chip" id="presetNote">💊 Vitamin &amp; Knee Update</button>
+          </div>
+        </div>
+
+        <form id="checkinForm" class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-amber-200 mb-1">
+              👵 Elder Name
+            </label>
+            <input id="elderName" type="text" required value="Dadi Maa (Kamala Devi)" class="studio-input w-full rounded-xl p-2.5 text-sm">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-[11px] font-semibold uppercase tracking-wider text-amber-200">
+                💬 Today's Check-in (Type or Dictate)
+              </label>
+              <button type="button" id="micBtn" class="text-xs text-amber-300 hover:text-white font-semibold">
+                🎙️ Speak Input
+              </button>
+            </div>
+            <textarea
+              id="todaysMessage"
+              required
+              rows="4"
+              class="studio-input w-full rounded-xl p-3 text-sm leading-relaxed"
+            >Good morning Yaad! My left knee feels much better today. I watered the orange marigold saplings on the veranda that I planted with Rohan, and I took my Vitamin D3 after breakfast just like Dr. Rao advised.</textarea>
+          </div>
+
+          <!-- MULTIMODAL IMAGE UPLOAD FOR GEMMA 4 -->
+          <div class="rounded-xl bg-black/40 border border-amber-500/25 p-3">
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-teal-300 mb-1">
+              📷 Optional Multimodal Photo (Prescription, Meal, or Garden)
+            </label>
+            <input id="photoInput" type="file" accept="image/*" class="text-xs text-slate-300 w-full">
+            <div id="photoPreviewWrap" class="hidden mt-2 flex items-center justify-between bg-slate-900/90 p-2 rounded-lg">
+              <img id="photoPreview" class="h-12 w-12 object-cover rounded border border-amber-400/40" alt="Upload preview">
+              <span id="photoName" class="text-xs text-amber-200 truncate px-2"></span>
+              <button type="button" id="clearPhotoBtn" class="text-xs text-rose-400 hover:text-rose-200">✕ Remove</button>
+            </div>
+          </div>
+
+          <button id="submitBtn" type="submit" class="btn-primary w-full rounded-xl text-white font-bold py-3 px-4 text-sm shadow-lg">
+            🌼 Run Check-In &amp; 6-Day Memory Recall
+          </button>
+        </form>
+
+        <!-- BROWSER VOICE SYNTHESIS BOX -->
+        <div class="pt-3 border-t border-slate-800">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-300">🔊 Spoken Companion Voice</span>
+            <label class="text-xs text-slate-300 flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" id="autoSpeakToggle" checked class="accent-amber-500"> Auto-Speak Reply
+            </label>
+          </div>
+          <p id="spokenPreview" class="text-xs text-slate-300 italic mb-2.5">
+            Yaad will speak its comforting response and 6-day recall question out loud using your browser's native voice.
+          </p>
+          <div class="flex gap-2">
+            <button id="speakNowBtn" type="button" class="flex-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-amber-500/30 py-2 px-3 text-xs font-semibold text-amber-200">
+              ▶️ Speak Companion Reply
+            </button>
+            <button id="stopSpeakBtn" type="button" class="rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 py-2 px-3 text-xs">
+              ⏹️
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- RIGHT COLUMN: 6-DAY MEMORY TIMELINE + AGENT TABS -->
+      <main class="space-y-5 min-w-0">
+
+        <!-- 6-DAY ROLLING MEMORY TIMELINE BAR -->
+        <section class="panel rounded-2xl p-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <span class="text-[11px] font-mono uppercase tracking-wider text-amber-400 block">Episodic Context Window</span>
+              <h2 class="serif-title text-xl font-bold text-white">🗓️ Rolling 6-Day Memory Bank (Ground Truth for Recall)</h2>
+            </div>
+            <button id="resetVaultBtn" type="button" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-amber-500/30 text-amber-200 font-medium">
+              🔄 Reset 6-Day Demo Seed
+            </button>
+          </div>
+          <div id="sixDayGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+        </section>
+
+        <!-- NAVIGATION TABS -->
+        <div class="panel p-1.5 rounded-2xl inline-flex flex-wrap gap-1.5">
+          <button class="tab-btn active rounded-xl px-4 py-2 text-xs sm:text-sm" data-tab="companionTab" type="button">
+            💬 01 · Companion &amp; 6-Day Question
+          </button>
+          <button class="tab-btn rounded-xl px-4 py-2 text-xs sm:text-sm" data-tab="auditTab" type="button">
+            🧠 02 · Cognitive Recall &amp; Family Overview
+          </button>
+          <button class="tab-btn rounded-xl px-4 py-2 text-xs sm:text-sm" data-tab="graphifyTab" type="button">
+            🗺️ 03 · Graphify Anti-Hallucination &amp; Traces
+          </button>
+        </div>
+
+        <!-- TAB 1: COMPANION RESPONSE -->
+        <section id="companionTab" class="tab-panel panel rounded-2xl p-6">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div>
+              <span class="text-[11px] font-mono uppercase text-amber-400">Agent 01 · Gemma Multimodal Companion &amp; Episodic Recall Coach</span>
+              <h3 class="serif-title text-2xl font-bold text-white">🕯️ Warm Check-in Response &amp; Recall Prompt</h3>
+            </div>
+          </div>
+          <div id="companionOutput" class="prose prose-invert max-w-none text-slate-200 leading-relaxed space-y-3 min-h-[220px]">
+            <p class="text-slate-400">Click <strong>🌼 Run Check-In &amp; 6-Day Memory Recall</strong> to see Gemma respond warmly and ask a personalized question from the 6-day memory bank above.</p>
+          </div>
+        </section>
+
+        <!-- TAB 2: COGNITIVE CONTINUITY & FAMILY AUDIT -->
+        <section id="auditTab" class="tab-panel panel rounded-2xl p-6 hidden">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div>
+              <span class="text-[11px] font-mono uppercase text-teal-400">Agent 02 · 6-Day Memory Continuity Auditor &amp; Telegram Liaison</span>
+              <h3 class="serif-title text-2xl font-bold text-white">📋 Cognitive Recall Score &amp; Family Telegram Briefing</h3>
+            </div>
+            <span id="telegramStatusPill" class="text-xs font-mono px-2.5 py-1 rounded-full bg-teal-500/15 text-teal-300 border border-teal-500/30">
+              Telegram Ready
+            </span>
+          </div>
+          <div id="auditGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <p class="text-slate-400">Run a check-in to generate the 6-day cognitive continuity report and family briefing.</p>
+          </div>
+        </section>
+
+        <!-- TAB 3: GRAPHIFY KNOWLEDGE GRAPH & AGENT TRACES -->
+        <section id="graphifyTab" class="tab-panel panel rounded-2xl p-6 hidden">
+          <div class="border-b border-slate-800 pb-3 mb-4">
+            <span class="text-[11px] font-mono uppercase text-amber-400">Graphify AST &amp; Schema Grounding + Live Agent Telemetry</span>
+            <h3 class="serif-title text-2xl font-bold text-white">🗺️ Graphify Anti-Hallucination Anchor &amp; Execution Logs</h3>
+          </div>
+          <div id="traceRow" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
+          <div class="mb-4">
+            <div class="text-xs font-mono uppercase text-amber-300 mb-1">Graphify Grounding Context Injected into Gemma:</div>
+            <pre id="graphifyOutput" class="rounded-xl bg-black/80 border border-amber-500/25 p-3.5 font-mono text-xs text-teal-300 overflow-x-auto"></pre>
+          </div>
+          <div>
+            <div class="text-xs font-mono uppercase text-amber-300 mb-1">Live Backend Execution Logs:</div>
+            <pre id="logsOutput" class="rounded-xl bg-black/80 border border-slate-800 p-3.5 font-mono text-xs text-amber-200 overflow-x-auto min-h-[160px]"></pre>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    let currentImageBase64 = null;
+    let currentImageMime = "image/jpeg";
+    let latestSpokenText = "Hello Dadi! How are you feeling today?";
+
+    function renderSixDayCards(history) {
+      const grid = document.getElementById("sixDayGrid");
+      grid.replaceChildren();
+      (history || []).forEach((item, idx) => {
+        const card = document.createElement("div");
+        card.className = "rounded-xl bg-black/55 border border-amber-500/25 p-3 text-xs space-y-1";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-mono font-bold text-amber-300">${item.day_label || ("Day " + (idx + 1))}</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-300 border border-teal-500/30">${item.mood || "Steady"}</span>
+          </div>
+          <div class="font-semibold text-white">${item.topic || "Daily Log"}</div>
+          <div class="text-slate-300 leading-snug">${item.memory_fact || ""}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function speakText(text) {
+      if (!("speechSynthesis" in window) || !text) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 0.94;
+      utter.pitch = 1.0;
+      window.speechSynthesis.speak(utter);
+    }
+
+    async function loadInitialVault() {
+      try {
+        const res = await fetch("/api/memory-vault");
+        const data = await res.json();
+        renderSixDayCards(data.six_day_history);
+        document.getElementById("graphifyOutput").textContent = JSON.stringify(data.graphify_context, null, 2);
+        if (data.logs && data.logs.length) {
+          document.getElementById("logsOutput").textContent = data.logs.join("\n");
+        }
+      } catch (e) {}
+    }
+
+    // Presets
+    document.getElementById("presetStrong").addEventListener("click", () => {
+      document.getElementById("todaysMessage").value =
+        "Good morning Yaad! My left knee feels much better today. I watered the orange marigold saplings on the veranda that I planted with Rohan, and I took my Vitamin D3 after breakfast just like Dr. Rao advised.";
+    });
+
+    document.getElementById("presetPartial").addEventListener("click", () => {
+      document.getElementById("todaysMessage").value =
+        "I had a quiet morning listening to the radio, and I saw the yellow flowers blooming in the clay pots outside, though I cannot quite remember who helped me plant them earlier this week.";
+    });
+
+    document.getElementById("presetNote").addEventListener("click", () => {
+      document.getElementById("todaysMessage").value =
+        "I spoke with my friend Saroja again this morning and made a warm cup of tea. Could you remind me how many glasses of water Dr. Rao told me to drink each day?";
+    });
+
+    // Multimodal Photo Upload
+    document.getElementById("photoInput").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      currentImageMime = file.type || "image/jpeg";
+      const reader = new FileReader();
+      reader.onload = () => {
+        currentImageBase64 = reader.result;
+        document.getElementById("photoPreview").src = currentImageBase64;
+        document.getElementById("photoName").textContent = file.name;
+        document.getElementById("photoPreviewWrap").classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById("clearPhotoBtn").addEventListener("click", () => {
+      currentImageBase64 = null;
+      document.getElementById("photoInput").value = "";
+      document.getElementById("photoPreviewWrap").classList.add("hidden");
+    });
+
+    // Speech-to-Text Mic Dictation
+    document.getElementById("micBtn").addEventListener("click", () => {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        alert("Browser Speech-to-Text requires Chrome or Edge.");
+        return;
+      }
+      const rec = new SpeechRec();
+      rec.lang = "en-IN";
+      const micBtn = document.getElementById("micBtn");
+      micBtn.textContent = "🔴 Listening...";
+      rec.onresult = (ev) => {
+        document.getElementById("todaysMessage").value = ev.results[0][0].transcript;
+      };
+      rec.onend = () => { micBtn.textContent = "🎙️ Speak Input"; };
+      rec.start();
+    });
+
+    // Reset 6-Day Seed
+    document.getElementById("resetVaultBtn").addEventListener("click", async () => {
+      const res = await fetch("/api/reset-vault", { method: "POST" });
+      const data = await res.json();
+      renderSixDayCards(data.six_day_history);
+    });
+
+    // Voice Buttons
+    document.getElementById("speakNowBtn").addEventListener("click", () => speakText(latestSpokenText));
+    document.getElementById("stopSpeakBtn").addEventListener("click", () => {
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    });
+
+    // Tabs
+    document.querySelectorAll("[data-tab]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("active", b === btn));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("hidden", p.id !== btn.dataset.tab));
+      });
+    });
+
+    // Submit Check-In
+    document.getElementById("checkinForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById("submitBtn");
+      const statusBadge = document.getElementById("statusBadge");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "🌼 Gemma Evaluating 6-Day Memory & Vision...";
+      statusBadge.textContent = "Running Gemma Pipeline...";
+
+      try {
+        const res = await fetch("/api/checkin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            elder_name: document.getElementById("elderName").value.trim(),
+            todays_message: document.getElementById("todaysMessage").value.trim(),
+            image_base64: currentImageBase64,
+            image_mime: currentImageMime
+          })
+        });
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.detail || "Check-in failed");
+
+        const d = body.data;
+        renderSixDayCards(d.six_day_history);
+
+        const rawHtml = window.marked ? window.marked.parse(d.companion_reply_md || "") : d.companion_reply_md;
+        document.getElementById("companionOutput").innerHTML = window.DOMPurify ? window.DOMPurify.sanitize(rawHtml) : rawHtml;
+
+        latestSpokenText = d.spoken_voice_text || "";
+        document.getElementById("spokenPreview").textContent = `"${latestSpokenText}"`;
+        if (document.getElementById("autoSpeakToggle").checked) {
+          speakText(latestSpokenText);
+        }
+
+        // Render Audit Cards
+        const a = d.audit || {};
+        const auditGrid = document.getElementById("auditGrid");
+        auditGrid.replaceChildren();
+        const items = [
+          ["🧠 6-Day Cognitive Continuity Score", a.cognitive_continuity_score],
+          ["💛 Today's Mood & Energy", a.mood_and_energy],
+          ["🔍 6-Day Episodic Recall Analysis", a.memory_recall_status],
+          ["🗓️ Next 6-Day Recall Prompt for Tomorrow", a.next_6day_recall_question],
+          ["📷 Multimodal Vision Note (Gemma)", a.multimodal_visual_note],
+          ["📱 Family Telegram Briefing Note", a.gentle_family_reminder]
+        ];
+        items.forEach(([label, val]) => {
+          const box = document.createElement("div");
+          box.className = "rounded-xl bg-black/60 border border-amber-500/25 p-4";
+          box.innerHTML = `
+            <div class="text-[11px] font-mono uppercase text-amber-300 mb-1">${label}</div>
+            <div class="text-sm text-white leading-relaxed">${val || "Recorded"}</div>
+          `;
+          auditGrid.appendChild(box);
+        });
+
+        document.getElementById("telegramStatusPill").textContent =
+          d.telegram_sent ? "📱 Sent to Telegram Group!" : "📱 Previewed (Add TELEGRAM_CHAT_ID in .env for live push)";
+
+        // Render Traces & Graphify
+        const traceRow = document.getElementById("traceRow");
+        traceRow.replaceChildren();
+        (d.traces || []).forEach(t => {
+          const card = document.createElement("div");
+          card.className = "rounded-xl bg-black/75 border border-teal-500/30 p-3 text-xs font-mono";
+          card.innerHTML = `
+            <div class="text-teal-300 font-bold">${t.agent}</div>
+            <div>Model: <span class="text-white">${t.model}</span> | Multimodal: ${t.multimodal}</div>
+            <div>Latency: <span class="text-emerald-400">${t.latency_ms} ms</span> | Tokens: ${t.prompt_tokens} → ${t.output_tokens}</div>
+          `;
+          traceRow.appendChild(card);
+        });
+
+        document.getElementById("graphifyOutput").textContent = JSON.stringify(d.graphify_context, null, 2);
+        document.getElementById("logsOutput").textContent = (d.logs || []).join("\n");
+        statusBadge.textContent = `Check-In Complete (${body.model})`;
+      } catch (err) {
+        statusBadge.textContent = "Error";
+        alert("Error: " + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "🌼 Run Check-In & 6-Day Memory Recall";
+      }
+    });
+
+    loadInitialVault();
+  </script>
+</body>
+</html>
